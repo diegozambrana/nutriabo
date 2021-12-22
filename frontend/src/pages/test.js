@@ -1,7 +1,8 @@
 import React from 'react';
-import { Table } from '../components';
+//import { Table } from '../components';
 import { DATA_TABLE } from '../data';
-import { useTable } from 'react-table'
+import { useTable } from 'react-table';
+
 
 export const Test = () => {
 
