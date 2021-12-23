@@ -29,6 +29,7 @@ export const Layout = ({children}) => {
               flexDirection: 'column',
               width: '100%'
             }}
+            p={1}
           >
             {children}
           </Box>
