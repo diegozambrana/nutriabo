@@ -1,12 +1,17 @@
-import { Box } from '@mui/system';
 import React from 'react';
-import { EditText, Card } from '../index';
+import { Box } from '@mui/system';
 import HelpIcon from '@mui/icons-material/Help';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
+import {IconButton, Tooltip} from '@mui/material';
+import { FOOD_COLUMNS } from '../../utils';
+import { DATA_TABLE } from '../../data';
+import { EditText, Card, Table, TableFood } from '../index';
 
 export const CardFood = ({}) => {
   const [title, setTitle] = React.useState('Title');
+  const columns = React.useMemo(() => FOOD_COLUMNS, []);
+  const data = React.useMemo(() => DATA_TABLE, [] )
+  const [dataCardFood, setDataCardFood] = React.useState([])
+
   return (
     <Card>
       <Box display='flex'>
@@ -29,6 +34,14 @@ export const CardFood = ({}) => {
             </IconButton>
           </Tooltip>
         </Box>
+      </Box>
+
+      <Box mt={2} sx={{ width: '100%', overflow: 'hidden' }}>
+        <TableFood
+          data={dataCardFood}
+          onAddedNewValue={() => console.log(`onAddedNewValue`)}
+          onUpdate={() => console.log(`onUpdate`)}
+        />
       </Box>
     </Card>
   )

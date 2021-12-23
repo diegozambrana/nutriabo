@@ -1,7 +1,2 @@
-import React from 'react';
-
-export const Table = (props) => {
-    return (
-        <>Table</>
-    )
-}
+export * from './Table'
+export * from './TableFood';
