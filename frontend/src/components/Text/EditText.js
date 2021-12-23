@@ -78,6 +78,10 @@ const useStyles = makeStyles((theme) => ({
   },
   text:{
     cursor: 'pointer',
+    borderBottom: '1px solid rgba(0,0,0,0)',
+    '&:hover': {
+      borderBottom: '1px solid rgba(0,0,0,0.2)',
+    }
   },
   wrapperIcon: {
     width: 32,

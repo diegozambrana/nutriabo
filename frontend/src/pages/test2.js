@@ -1,6 +1,6 @@
 import { Box } from '@mui/system';
 import React from 'react';
-import { EditText, DropDown } from '../components';
+import { EditText, DropDown, CardFood} from '../components';
 import { DATA_TABLE } from '../data';
 
 export const Test2 = () => {
@@ -16,6 +16,7 @@ export const Test2 = () => {
                 onSelect={(option) => {console.log(option)}}
                 onRemove={() => {console.log('Removed')}}
             />
+            <CardFood />
         </Box>
     )
 }
