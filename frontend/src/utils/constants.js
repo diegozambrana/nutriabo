@@ -16,6 +16,7 @@ export const FOOD_COLUMNS = [
   {Header: 'RIBOFLAV',accessor: 'riboflav', minWidth: 50, align: 'right',},
   {Header: 'Niacina',accessor: 'niacina', minWidth: 50, align: 'right',},
   {Header: 'Vit. C',accessor: 'vintamina_C', minWidth: 70, align: 'right',},
+  {Header: '',accessor: 'actions'}
 ]
 
 export const NEW_ROW = {

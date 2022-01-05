@@ -6,14 +6,12 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
-  InputBase
+  TableRow
 } from '@mui/material'
 import { FOOD_COLUMNS, NEW_ROW } from '../../utils';
-import { DATA_TABLE } from '../../data';
 import { formatNumber } from '../../utils';
-import { DropDown } from '../index';
 import { Box } from '@mui/system';
+import AddIcon from '@mui/icons-material/Add';
 import { RowFood } from './RowFood';
 
 
@@ -25,19 +23,26 @@ export const TableFood = ({}) => {
     setRows([...rows, NEW_ROW])
   }
 
-  React.useEffect(() => {AddNewRow()}, [])
+  React.useEffect(() => {
+    if(rows.length === 0 ) AddNewRow()
+  }, [rows])
 
   const onUpdate = (option, amount, index) => {
     let newRows = [...rows];
-    console.log(option, amount, index)
-    console.log(Object.keys(option))
-    console.log(Object.keys(rows[index]))
+    const row = {}
     Object.keys(rows[index]).forEach((key) => {
-      if (key !== 'nombre' && key !== 'cantidad'){
-        newRows[index][key] = formatNumber(amount * option[key], 'number');
+      if (key !== 'nombre' && key !== 'cantidad' && key !== 'actions'){
+        row[key] = formatNumber(amount * option[key], 'number');
       }
     });
-    setRows(newRows)
+    newRows[index] = row;
+    setRows(newRows);
+  }
+
+  const onRemove = (index) => {
+    let newRows = [...rows];
+    newRows.splice(index, 1);
+    setRows(newRows);
   }
 
   return (
@@ -59,29 +64,29 @@ export const TableFood = ({}) => {
           </TableHead>
           <TableBody>
             {rows
-              // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
                 return (
                   <RowFood
+                    key={`t_${index}`}
                     columns={columns}
                     row={row}
                     onUpdate={onUpdate}
                     index={index}
+                    onRemove={onRemove}
                   />
                 );
               })}
           </TableBody>
         </Table>
       </TableContainer>
-      {/* <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      /> */}
-      <Button onClick={AddNewRow}>Nuevo</Button>
+
+      <Box ml={2}>
+        <Button
+          onClick={AddNewRow}
+          variant="contained"
+          startIcon={<AddIcon />}
+        >Nuevo Alimento</Button>
+      </Box>
+      
   </Box>)
 }
