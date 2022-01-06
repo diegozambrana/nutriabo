@@ -1,5 +1,4 @@
 export const FOOD_COLUMNS = [
-  // {Header: 'Código',accessor: 'codigo'},
   {Header: 'Nombre',accessor: 'nombre', minWidth: 250,},
   {Header: 'Cantidad',accessor: 'cantidad'},
   {Header: 'Energía',accessor: 'energia', minWidth: 50, align: 'right',},

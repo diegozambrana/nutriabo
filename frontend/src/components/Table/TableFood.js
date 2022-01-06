@@ -13,10 +13,17 @@ import { formatNumber } from '../../utils';
 import { Box } from '@mui/system';
 import AddIcon from '@mui/icons-material/Add';
 import { RowFood } from './RowFood';
+import { TotalTable } from './TotalTable';
 
 
 export const TableFood = ({}) => {
   const columns = React.useMemo(() => FOOD_COLUMNS, []);
+  const columnsTotal = React.useMemo(() => {
+    let l = [...FOOD_COLUMNS];
+    l.splice(0,2);
+    l.pop();
+    return l;
+  }, []);
   const [rows, setRows] = React.useState([]);
 
   const AddNewRow = () => {
@@ -45,9 +52,24 @@ export const TableFood = ({}) => {
     setRows(newRows);
   }
 
+  const totalData = React.useMemo(() => {
+    let total = {};
+    columnsTotal.forEach(column => total[column.accessor] = 0)
+
+    rows.forEach(row => {
+      columnsTotal.forEach(column => {
+        total[column.accessor] = formatNumber(
+          parseFloat(total[column.accessor]) + parseFloat(row[column.accessor]),
+          'number'
+        );
+      })
+    })
+    return total
+  }, [rows, columnsTotal])
+
   return (
     <Box>
-    <TableContainer sx={{ maxHeight: 440 }}>
+      <TableContainer>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -87,6 +109,10 @@ export const TableFood = ({}) => {
           startIcon={<AddIcon />}
         >Nuevo Alimento</Button>
       </Box>
-      
-  </Box>)
+
+      <Box mt={3}>
+        <TotalTable totalData={totalData} columns={columnsTotal} />
+      </Box>
+    </Box>
+  )
 }

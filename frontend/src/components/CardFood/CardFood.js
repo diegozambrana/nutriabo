@@ -2,15 +2,11 @@ import React from 'react';
 import { Box } from '@mui/system';
 import HelpIcon from '@mui/icons-material/Help';
 import {IconButton, Tooltip} from '@mui/material';
-import { FOOD_COLUMNS } from '../../utils';
-import { DATA_TABLE } from '../../data';
-import { EditText, Card, Table, TableFood } from '../index';
+import { EditText, Card, TableFood } from '../index';
 
 export const CardFood = ({}) => {
   const [title, setTitle] = React.useState('Title');
-  const columns = React.useMemo(() => FOOD_COLUMNS, []);
-  const data = React.useMemo(() => DATA_TABLE, [] )
-  const [dataCardFood, setDataCardFood] = React.useState([])
+  // const [dataCardFood, setDataCardFood] = React.useState([])
 
   return (
     <Card>
@@ -37,11 +33,7 @@ export const CardFood = ({}) => {
       </Box>
 
       <Box mt={2} sx={{ width: '100%', overflow: 'hidden' }}>
-        <TableFood
-          data={dataCardFood}
-          onAddedNewValue={() => console.log(`onAddedNewValue`)}
-          onUpdate={() => console.log(`onUpdate`)}
-        />
+        <TableFood/>
       </Box>
     </Card>
   )
