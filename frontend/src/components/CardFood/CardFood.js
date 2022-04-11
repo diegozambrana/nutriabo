@@ -3,16 +3,28 @@ import { Box } from '@mui/system';
 import HelpIcon from '@mui/icons-material/Help';
 import {IconButton, Tooltip} from '@mui/material';
 import { EditText, Card, TableFood } from '../index';
+import { useDispatch } from 'react-redux';
+import {
+  updateNameFoodTime,
+  addNewFood,
+  updateFood,
+  removeFood
+} from '../../redux/slices/diet';
 
-export const CardFood = ({}) => {
-  const [title, setTitle] = React.useState('Title');
-  // const [dataCardFood, setDataCardFood] = React.useState([])
+export const CardFood = ({foodTimeData, index}) => {
+  const dispatch = useDispatch()
 
   return (
     <Card>
       <Box display='flex'>
         <Box sx={{ flexGrow: 1 }}>
-          <EditText value={title} variant="h3" onComplete={(text) => setTitle(text)}/>
+          <EditText
+            value={foodTimeData.name}
+            variant="h3"
+            onComplete={(text) => {
+              dispatch(updateNameFoodTime({index, value: text}))
+            }}
+          />
         </Box>
         <Box>
           <Tooltip title={
@@ -33,7 +45,15 @@ export const CardFood = ({}) => {
       </Box>
 
       <Box mt={2} sx={{ width: '100%', overflow: 'hidden' }}>
-        <TableFood/>
+        <TableFood
+          aliments={foodTimeData.aliments || []}
+          onAddNewRow={(value) => {
+            console.log(`onAddNewRow`, index, value)
+            dispatch(addNewFood({index, value}))
+          }}
+          onUpdateFood={(indexFood, value) => dispatch(updateFood({index, indexFood, value}))}
+          onRemoveFood={(index) => dispatch(removeFood(index))}
+        />
       </Box>
     </Card>
   )

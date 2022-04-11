@@ -1,22 +1,29 @@
 import { Box } from '@mui/system';
 import React from 'react';
-import { EditText, DropDown, CardFood} from '../components';
-import { DATA_TABLE } from '../data';
+import { CardFood} from '../components';
+import { useSelector,useDispatch } from 'react-redux';
+import { Button } from '@mui/material';
+import { addFoodTime } from '../redux/slices/diet';
+import AddIcon from '@mui/icons-material/Add';
 
 export const Test2 = () => {
-    const [testText, setTestText] = React.useState('Texto')
+    const foodTimes = useSelector(s => s.diet.foodTimes);
+    const dispatch = useDispatch();
+
     return (
         <Box>
-            <Box>Test 2</Box>
-            <EditText value={testText} variant="h3" onComplete={(text) => setTestText(text)}/>
-            <DropDown
-                options={DATA_TABLE}
-                label={'nombre'}
-                placeholder={'Alimento'}
-                onSelect={(option) => {console.log(option)}}
-                onRemove={() => {console.log('Removed')}}
-            />
-            <CardFood />
+            {foodTimes.map((foodTime, index) => (
+                <CardFood
+                    foodTimeData={foodTime}
+                    index={index}
+                    key={`food__time__${index}`}
+                />
+            ))}
+            <Button
+                onClick={() => dispatch(addFoodTime())}
+                variant="contained"
+                startIcon={<AddIcon />}
+            >Nuevo Tiempo de comida</Button>
         </Box>
     )
 }

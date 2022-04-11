@@ -16,7 +16,7 @@ import { RowFood } from './RowFood';
 import { TotalTable } from './TotalTable';
 
 
-export const TableFood = ({}) => {
+export const TableFood = ({aliments, onUpdateFood, onRemoveFood, onAddNewRow: AddNewRow}) => {
   const columns = React.useMemo(() => FOOD_COLUMNS, []);
   const columnsTotal = React.useMemo(() => {
     let l = [...FOOD_COLUMNS];
@@ -24,39 +24,27 @@ export const TableFood = ({}) => {
     l.pop();
     return l;
   }, []);
-  const [rows, setRows] = React.useState([]);
 
-  const AddNewRow = () => {
-    setRows([...rows, NEW_ROW])
-  }
 
   React.useEffect(() => {
-    if(rows.length === 0 ) AddNewRow()
-  }, [rows])
+    if(aliments.length === 0 ) AddNewRow(NEW_ROW)
+  }, [aliments])
 
   const onUpdate = (option, amount, index) => {
-    let newRows = [...rows];
     const row = {}
-    Object.keys(rows[index]).forEach((key) => {
+    Object.keys(aliments[index]).forEach((key) => {
       if (key !== 'nombre' && key !== 'cantidad' && key !== 'actions'){
         row[key] = formatNumber(amount * option[key], 'number');
       }
     });
-    newRows[index] = row;
-    setRows(newRows);
-  }
-
-  const onRemove = (index) => {
-    let newRows = [...rows];
-    newRows.splice(index, 1);
-    setRows(newRows);
+    onUpdateFood(index, row)
   }
 
   const totalData = React.useMemo(() => {
     let total = {};
     columnsTotal.forEach(column => total[column.accessor] = 0)
 
-    rows.forEach(row => {
+    aliments.forEach(row => {
       columnsTotal.forEach(column => {
         total[column.accessor] = formatNumber(
           parseFloat(total[column.accessor]) + parseFloat(row[column.accessor]),
@@ -65,7 +53,7 @@ export const TableFood = ({}) => {
       })
     })
     return total
-  }, [rows, columnsTotal])
+  }, [aliments, columnsTotal])
 
   return (
     <Box>
@@ -85,26 +73,25 @@ export const TableFood = ({}) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .map((row, index) => {
-                return (
-                  <RowFood
-                    key={`t_${index}`}
-                    columns={columns}
-                    row={row}
-                    onUpdate={onUpdate}
-                    index={index}
-                    onRemove={onRemove}
-                  />
-                );
-              })}
+            {aliments.map((row, index) => {
+              return (
+                <RowFood
+                  key={`t_${index}`}
+                  columns={columns}
+                  row={row}
+                  onUpdate={onUpdate}
+                  index={index}
+                  onRemove={onRemoveFood}
+                />
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
 
       <Box ml={2}>
         <Button
-          onClick={AddNewRow}
+          onClick={() => AddNewRow(NEW_ROW)}
           variant="contained"
           startIcon={<AddIcon />}
         >Nuevo Alimento</Button>

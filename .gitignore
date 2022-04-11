@@ -1,0 +1,9 @@
+credentials.yml
+.DS_Store
+platform.yml
+sensitive/
+*.tar.gz
+untracked
+private/
+*.py[cod] 
+*.sw[a-z]
