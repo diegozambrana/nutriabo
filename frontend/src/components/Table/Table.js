@@ -28,7 +28,6 @@ export const Table = ({data, columns}) => {
             style={{ minWidth: column.minWidth }}
             {...column.getHeaderProps()}
           >
-            {console.log(column)}
           { column.render('Header')}
           </TableCell>
         ))}
@@ -47,7 +46,6 @@ export const Table = ({data, columns}) => {
           {// Loop over the rows cells
           row.cells.map(cell => {
           // Apply the cell props
-          console.log(`cell`, cell.column.align)
           return (
             <TableCell align={cell.column.align} {...cell.getCellProps()}>
             {// Render the cell contents

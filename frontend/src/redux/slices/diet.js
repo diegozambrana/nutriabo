@@ -4,6 +4,7 @@ export const dietSlice = createSlice({
   name: 'diet',
   initialState: {
     titleDiet: 'sin Titulo',
+    descriptionDiet: 'Lorem impsum',
     foodTimes: [
       {
         name: 'Desayuno',
@@ -38,6 +39,9 @@ export const dietSlice = createSlice({
     },
     updateTitle: (state, action) => {
       state.titleDiet = action.payload;
+    },
+    updateDescription: (state, action) => {
+      state.descriptionDiet = action.payload
     }
   },
 })
@@ -48,7 +52,8 @@ export const {
   addNewFood,
   updateFood,
   removeFood,
-  updateTitle
+  updateTitle,
+  updateDescription
 } = dietSlice.actions
 
 export default dietSlice.reducer

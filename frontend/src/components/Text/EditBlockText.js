@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, InputBase } from '@mui/material';
+import { Box, Typography, InputBase, TextareaAutosize } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -14,7 +14,7 @@ import { makeStyles } from '@mui/styles';
  * @param {string} variant - styles of Material Typography.
  */
 
-export const EditText = ({value, onComplete, variant}) => {
+export const EditBlockText = ({value, onComplete, variant='body2'}) => {
   const [editMode, setEditMode] = React.useState(false);
   const [editText, setEditText] = React.useState(value);
   const classes = useStyles({variant});
@@ -51,13 +51,12 @@ export const EditText = ({value, onComplete, variant}) => {
       </Box>
       {editMode && (
         <Box position={'relative'}>
-          <InputBase
+          <TextareaAutosize
             className={`${classes.input} ${variant}`}
             value={editText}
             onChange={(e) => setEditText(e.target.value)}
             autoFocus={editMode}
             onKeyDown={onKeyDown}
-            fullWidth
           />
           <Box className={classes.actions}>
             <CheckCircleIcon color="primary" onClick={onAccept} />
@@ -101,6 +100,12 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: props => theme.typography[props.variant].fontWeight,
     fontSize: props => theme.typography[props.variant].fontSize,
     lineHeight: props => theme.typography[props.variant].lineHeight,
+    fontFamily: props => theme.typography[props.variant].fontFamily,
+    width: '100%',
+    minHeight: theme.spacing(10),
+    border: 'none',
+    borderBottom: `1px solid ${theme.palette.primary.main}`,
+    padding: theme.spacing(1),
     '& input': {padding: 0, margin: 0}
   },
   actions: {
