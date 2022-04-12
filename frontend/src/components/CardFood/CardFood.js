@@ -20,7 +20,7 @@ export const CardFood = ({foodTimeData, index}) => {
         <Box sx={{ flexGrow: 1 }}>
           <EditText
             value={foodTimeData.name}
-            variant="h3"
+            variant="h5"
             onComplete={(text) => {
               dispatch(updateNameFoodTime({index, value: text}))
             }}

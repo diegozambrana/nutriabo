@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const dietSlice = createSlice({
   name: 'diet',
   initialState: {
+    titleDiet: 'sin Titulo',
     foodTimes: [
       {
         name: 'Desayuno',
@@ -35,6 +36,9 @@ export const dietSlice = createSlice({
       const {index} = action.payload;
       state.foodTimes.aliments.splice(index, 1);
     },
+    updateTitle: (state, action) => {
+      state.titleDiet = action.payload;
+    }
   },
 })
 
@@ -43,7 +47,8 @@ export const {
   updateNameFoodTime,
   addNewFood,
   updateFood,
-  removeFood
+  removeFood,
+  updateTitle
 } = dietSlice.actions
 
 export default dietSlice.reducer
