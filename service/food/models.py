@@ -10,7 +10,7 @@ class Categoria(models.Model):
 
 
 class Alimento(models.Model):
-    categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
+    categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE, null=True, blank=True)
     codigo = models.CharField(max_length=32, verbose_name="Código")
     nombre = models.CharField(max_length=128, verbose_name="Nombre Alimento")
     energia = models.DecimalField(
