@@ -1,15 +1,6 @@
 import graphene
-import graphql_jwt
-
-
-class Query(graphene.ObjectType):
-    hello = graphene.String(default_value="Hi!")
-
-
-class Mutation(graphene.ObjectType):
-    token_auth = graphql_jwt.ObtainJSONWebToken.Field()
-    verify_token = graphql_jwt.Verify.Field()
-    refresh_token = graphql_jwt.Refresh.Field()
+from service.schema.query import Query
+from service.schema.mutation import Mutation
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
