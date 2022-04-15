@@ -1,6 +1,6 @@
 import { Box } from '@mui/system';
 import React from 'react';
-import { CardFood, EditBlockText } from '../components';
+import { CardFood, EditBlockText, TotalTable } from '../components';
 import { EditText } from '../components';
 import { useSelector,useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
@@ -69,6 +69,8 @@ export const Test2 = () => {
         variant="contained"
         startIcon={<AddIcon />}
       >Nuevo Tiempo de comida</Button>
+
+      <TotalTable foodTimes={foodTimes} />
       
       {controlBar}
     </Box>

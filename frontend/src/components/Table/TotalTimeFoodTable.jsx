@@ -8,7 +8,7 @@ import {
     TableRow
   } from '@mui/material'
 
-export const TotalTable = ({totalData, columns}) => {
+export const TotalTimeFoodTable = ({totalData, columns}) => {
 
   return (
     <>

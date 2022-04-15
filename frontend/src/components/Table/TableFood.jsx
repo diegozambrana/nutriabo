@@ -13,7 +13,7 @@ import { formatNumber } from '../../utils';
 import { Box } from '@mui/system';
 import AddIcon from '@mui/icons-material/Add';
 import { RowFood } from './RowFood';
-import { TotalTable } from './TotalTable';
+import { TotalTimeFoodTable } from './TotalTimeFoodTable';
 
 
 export const TableFood = ({aliments, onUpdateFood, onRemoveFood, onAddNewRow: AddNewRow}) => {
@@ -98,7 +98,7 @@ export const TableFood = ({aliments, onUpdateFood, onRemoveFood, onAddNewRow: Ad
       </Box>
 
       <Box mt={3}>
-        <TotalTable totalData={totalData} columns={columnsTotal} />
+        <TotalTimeFoodTable totalData={totalData} columns={columnsTotal} />
       </Box>
     </Box>
   )
