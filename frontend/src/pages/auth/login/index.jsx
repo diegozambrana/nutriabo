@@ -4,9 +4,13 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Box, Button, Container, Link, TextField, Typography } from '@mui/material';
+import { useMutation } from '@apollo/client';
+import { TOKEN_AUTH } from '../../../graphql/mutation';
 
 export const Login = () => {
   // const router = useRouter();
+  const [tokenAuth, { data, loading, error }] = useMutation(TOKEN_AUTH);
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -28,6 +32,14 @@ export const Login = () => {
     }),
     onSubmit: (values) => {
       console.log(`HERE onSUBMIT`, values)
+      tokenAuth({variables: values}).then((result) => {
+        // const { tokenAuth } = result.data;
+        console.log(`result`, result)
+        // localStorage.setItem('refreshToken', tokenAuth.refreshToken);
+        // localStorage.setItem('token', tokenAuth.token);
+        // history.push('/cursos')
+      })
+      .catch((error) => {console.error(error.message)});
     }
   });
 

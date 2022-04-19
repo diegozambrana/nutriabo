@@ -2,7 +2,6 @@ import graphene
 from service.schema.types import UserType
 
 class Query(graphene.ObjectType):
-    hello = graphene.String(default_value="Hi!")
     whoami = graphene.Field(UserType)
 
     def resolve_whoami(self, info):

@@ -1,3 +1,5 @@
+export const API_DOMAIN = process.env.REACT_APP_API_DOMAIN
+
 export const FOOD_COLUMNS = [
   {Header: 'Nombre',accessor: 'nombre', minWidth: 250,},
   {Header: 'Cantidad',accessor: 'cantidad'},
