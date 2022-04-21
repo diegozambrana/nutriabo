@@ -42,7 +42,7 @@ export const Login = () => {
       tokenAuth({variables: values}).then((result) => {
         setAccess(result.data.tokenAuth.token)
         setRefresh(result.data.tokenAuth.refreshToken)
-        navigate('/');
+        navigate('/dashboard');
       })
       .catch((error) => {console.error(error.message)});
     }

@@ -5,7 +5,6 @@ import {
   Button,
   Alert,
   Container,
-  FormHelperText,
   TextField,
   Typography
 } from '@mui/material';
@@ -16,7 +15,6 @@ import { setRefresh, setAccess } from '../../../utils';
 
 export const Register = () => {
   const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
-  console.log(`data`, data)
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -64,7 +62,7 @@ export const Register = () => {
       }}).then((result) => {
         setAccess(result.data.createUser.token)
         setRefresh(result.data.createUser.refreshToken)
-        navigate('/');
+        navigate('/dashboard');
       })
       .catch((error) => {console.error(error.message)});
     }
