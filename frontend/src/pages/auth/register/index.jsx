@@ -1,29 +1,30 @@
-
-// import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
   Box,
   Button,
-  Checkbox,
+  Alert,
   Container,
   FormHelperText,
-  // Link,
   TextField,
   Typography
 } from '@mui/material';
-// import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useMutation } from '@apollo/client';
+import { CREATE_USER } from '../../../graphql/mutation';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { setRefresh, setAccess } from '../../../utils';
 
 export const Register = () => {
-  // const router = useRouter();
+  const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
+  console.log(`data`, data)
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: '',
       firstName: '',
       lastName: '',
       password: '',
-      password2: '',
-      policy: false
+      password2: ''
     },
     validationSchema: Yup.object({
       email: Yup
@@ -52,16 +53,20 @@ export const Register = () => {
         .string()
         .max(255)
         .required(
-          'Password is required'),
-      policy: Yup
-        .boolean()
-        .oneOf(
-          [true],
-          'This field must be checked'
-        )
+          'Password is required')
     }),
     onSubmit: (value) => {
-      // router.push('/');
+      createUser({variables: {
+        email: value.email,
+        firstName: value.firstName,
+        lastName: value.lastName,
+        password: value.password,
+      }}).then((result) => {
+        setAccess(result.data.createUser.token)
+        setRefresh(result.data.createUser.refreshToken)
+        navigate('/');
+      })
+      .catch((error) => {console.error(error.message)});
     }
   });
 
@@ -93,6 +98,14 @@ export const Register = () => {
                 Usa tu email para crear una cuenta nueva
               </Typography>
             </Box>
+
+            {!!error && <Alert severity="error">
+              { error?.message.includes("UNIQUE")
+                ? `El correro electrónico ya esta registrado con otra cuenta.`
+                : 'Error al crear la cuenta, intente de nuevo despues.'
+              }
+            </Alert>}
+
             <TextField
               error={Boolean(formik.touched.firstName && formik.errors.firstName)}
               fullWidth
@@ -152,51 +165,14 @@ export const Register = () => {
               name="password2"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              type="password2"
+              type="password"
               value={formik.values.password2}
               variant="outlined"
             />
-            <Box
-              sx={{
-                alignItems: 'center',
-                display: 'flex',
-                ml: -1
-              }}
-            >
-              <Checkbox
-                checked={formik.values.policy}
-                name="policy"
-                onChange={formik.handleChange}
-              />
-              <Typography
-                color="textSecondary"
-                variant="body2"
-              >
-                I have read the
-                {' '}
-                {/* <NextLink
-                  href="#"
-                  passHref
-                >
-                  <Link
-                    color="primary"
-                    underline="always"
-                    variant="subtitle2"
-                  > */}
-                    Terms and Conditions
-                  {/* </Link>
-                </NextLink> */}
-              </Typography>
-            </Box>
-            {Boolean(formik.touched.policy && formik.errors.policy) && (
-              <FormHelperText error>
-                {formik.errors.policy}
-              </FormHelperText>
-            )}
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"
-                disabled={formik.isSubmitting}
+                disabled={loading}
                 fullWidth
                 size="large"
                 type="submit"
@@ -209,19 +185,9 @@ export const Register = () => {
               color="textSecondary"
               variant="body2"
             >
-              Have an account?
+              ¿Ya tienes cuenta?
               {' '}
-              {/* <NextLink
-                href="/login"
-                passHref
-              >
-                <Link
-                  variant="subtitle2"
-                  underline="hover"
-                >
-                  Sign In
-                </Link>
-              </NextLink> */}
+              <NavLink to="/login">Ingresar</NavLink>
             </Typography>
           </form>
         </Container>

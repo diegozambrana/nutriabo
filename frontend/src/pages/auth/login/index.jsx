@@ -1,15 +1,23 @@
 
-// import NextLink from 'next/link';
-// import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Box, Button, Container, Link, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Link,
+  TextField,
+  Typography,
+  Alert
+} from '@mui/material';
 import { useMutation } from '@apollo/client';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { TOKEN_AUTH } from '../../../graphql/mutation';
+import { setRefresh, setAccess } from '../../../utils';
 
 export const Login = () => {
-  // const router = useRouter();
   const [tokenAuth, { data, loading, error }] = useMutation(TOKEN_AUTH);
+  const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues: {
@@ -31,13 +39,10 @@ export const Login = () => {
           'Password is required')
     }),
     onSubmit: (values) => {
-      console.log(`HERE onSUBMIT`, values)
       tokenAuth({variables: values}).then((result) => {
-        // const { tokenAuth } = result.data;
-        console.log(`result`, result)
-        // localStorage.setItem('refreshToken', tokenAuth.refreshToken);
-        // localStorage.setItem('token', tokenAuth.token);
-        // history.push('/cursos')
+        setAccess(result.data.tokenAuth.token)
+        setRefresh(result.data.tokenAuth.refreshToken)
+        navigate('/');
       })
       .catch((error) => {console.error(error.message)});
     }
@@ -72,6 +77,8 @@ export const Login = () => {
               </Typography>
             </Box>
 
+            {!!error && <Alert severity="error">Usuario o Contraseña incorrectas</Alert>}
+
             <TextField
               error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
@@ -101,7 +108,7 @@ export const Login = () => {
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"
-                disabled={formik.isSubmitting}
+                disabled={loading}
                 fullWidth
                 size="large"
                 type="submit"
@@ -115,26 +122,12 @@ export const Login = () => {
               variant="body2"
             >
               Aún no tienes una cuenta?
-              {' '} Registrate
-              {/* <NextLink
-                href="/register"
-              >
-                <Link
-                  to="/register"
-                  variant="subtitle2"
-                  underline="hover"
-                  sx={{
-                    cursor: 'pointer'
-                  }}
-                >
-                  Sign Up
-                </Link>
-              </NextLink> */}
+              {' '} <NavLink to="/register" component={Link}>Registrate</NavLink>
             </Typography>
-            <Typography
+            {/* <Typography
               color="textSecondary"
               variant="body2"
-            >Olvidaste tu Contraseña?</Typography>
+            >Olvidaste tu Contraseña?</Typography> */}
           </form>
         </Container>
       </Box>

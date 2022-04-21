@@ -16,7 +16,7 @@ import { useEffect } from 'react';
 function App() {
   const {getToken} = useAuth()
   useEffect(() => {
-    getToken();
+    // getToken();
   }, [])
   return (
     <ThemeProvider theme={theme}>
