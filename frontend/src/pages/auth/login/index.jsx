@@ -1,4 +1,5 @@
-
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -15,9 +16,15 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { TOKEN_AUTH } from '../../../graphql/mutation';
 import { setRefresh, setAccess } from '../../../utils';
 
-export const Login = () => {
-  const [tokenAuth, { data, loading, error }] = useMutation(TOKEN_AUTH);
+
+export const Login = ({getUser}) => {
+  const {user} = useSelector(s => s.user);
+  const [tokenAuth, { loading, error }] = useMutation(TOKEN_AUTH);
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if(user) navigate('/dashboard');
+  }, [user])
 
   const formik = useFormik({
     initialValues: {
@@ -40,11 +47,11 @@ export const Login = () => {
     }),
     onSubmit: (values) => {
       tokenAuth({variables: values}).then((result) => {
-        setAccess(result.data.tokenAuth.token)
-        setRefresh(result.data.tokenAuth.refreshToken)
-        navigate('/dashboard');
+        setAccess(result.data.tokenAuth.token);
+        setRefresh(result.data.tokenAuth.refreshToken);
+        getUser();
       })
-      .catch((error) => {console.error(error.message)});
+      .catch((errorData) => {console.error(errorData.message)});
     }
   });
 

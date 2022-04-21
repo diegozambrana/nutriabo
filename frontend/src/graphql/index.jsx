@@ -5,26 +5,21 @@ import {
 } from "@apollo/client";
 import { setContext } from '@apollo/client/link/context';
 import { API_DOMAIN } from '../utils/constants';
+import { getAccess } from '../utils/helpers'
 
-console.log(`---> : ${API_DOMAIN}/graphql`);
-const httpLink = createHttpLink({
-  uri: `${API_DOMAIN}/graphql`,
-});
+const httpLink = createHttpLink({uri: `${API_DOMAIN}/graphql`,});
 
 const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  const token = localStorage.getItem('token');
-  // return the headers to the context so httpLink can read them
+  const token = getAccess();
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      'Authorization': token ? `Bearer ${token}` : "",
     }
   }
 });
 
 export const client = new ApolloClient({
-  // uri: `${API_DOMAIN}/graphql`,
   link: authLink.concat(httpLink),
   cache: new InMemoryCache()
 });

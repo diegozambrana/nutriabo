@@ -20,8 +20,8 @@ mutation VerifyToken($token: String!) {
 `;
 
 export const REFRESH_TOKEN = gql`
-mutation RefreshToken($token: String!) {
-  refreshToken(token: $token) {
+mutation RefreshToken($refreshToken: String!) {
+  refreshToken(refreshToken: $refreshToken) {
     token
     payload
     refreshExpiresIn

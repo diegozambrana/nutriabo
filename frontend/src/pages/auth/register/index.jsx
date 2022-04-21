@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -13,9 +15,14 @@ import { CREATE_USER } from '../../../graphql/mutation';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { setRefresh, setAccess } from '../../../utils';
 
-export const Register = () => {
-  const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
+
+export const Register = ({getUser}) => {
+  const {user} = useSelector(s => s.user);
+  const [createUser, { loading, error }] = useMutation(CREATE_USER);
   const navigate = useNavigate();
+  useEffect(() => {
+    if(user) navigate('/dashboard');
+  }, [user])
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -62,9 +69,10 @@ export const Register = () => {
       }}).then((result) => {
         setAccess(result.data.createUser.token)
         setRefresh(result.data.createUser.refreshToken)
-        navigate('/dashboard');
+        getUser();
+        
       })
-      .catch((error) => {console.error(error.message)});
+      .catch((errorData) => {console.error(errorData.message)});
     }
   });
 
