@@ -8,7 +8,7 @@ class CreateUser(graphene.Mutation):
     user = graphene.Field(UserType)
     token = graphene.String()
     refresh_token = graphene.String()
-    
+
     class Arguments:
         email = graphene.String(required=True)
         password = graphene.String(required=True)
@@ -26,9 +26,9 @@ class CreateUser(graphene.Mutation):
 
         token = get_token(user)
         refresh_token = create_refresh_token(user)
-        
+
         return CreateUser(user=user, token=token, refresh_token=refresh_token)
-    
+
 
 class Mutation(graphene.ObjectType):
     token_auth = graphql_jwt.ObtainJSONWebToken.Field()
