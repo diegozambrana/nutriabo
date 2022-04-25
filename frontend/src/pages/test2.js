@@ -10,7 +10,12 @@ import SaveIcon from '@mui/icons-material/Save';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 export const Test2 = () => {
-  const {foodTimes, titleDiet, descriptionDiet} = useSelector(s => s.diet);
+  const {
+    foodTimes,
+    titleDiet,
+    descriptionDiet,
+    total
+  } = useSelector(s => s.diet);
   const dispatch = useDispatch();
   const handleSave = () => {}
   const handleExport = () => {}
@@ -67,10 +72,11 @@ export const Test2 = () => {
       <Button
         onClick={() => dispatch(addFoodTime())}
         variant="contained"
+        size="small"
         startIcon={<AddIcon />}
       >Nuevo Tiempo de comida</Button>
 
-      <TotalTable foodTimes={foodTimes} />
+      <TotalTable totalData={total} />
       
       {controlBar}
     </Box>

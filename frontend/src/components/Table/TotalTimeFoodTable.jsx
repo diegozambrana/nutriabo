@@ -2,17 +2,16 @@ import React from 'react';
 import {
     Table,
     TableBody,
-    TableCell,
     TableContainer,
     TableHead,
     TableRow
   } from '@mui/material'
+import { TableCell } from './TableCell';
 
 export const TotalTimeFoodTable = ({totalData, columns}) => {
 
   return (
     <>
-      Total
       <TableContainer>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>

@@ -1,8 +1,8 @@
+import { useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
+import { useRefreshToken } from './useRefreshToken';
 import { getAccess } from '../utils';
 import { VERIFY_TOKEN } from '../graphql/mutation';
-import { useRefreshToken } from './useRefreshToken';
-import { useEffect, useState } from 'react';
 
 export const useVerifyToken = () => {
   const [verifyToken, {loading}] = useMutation(VERIFY_TOKEN);
@@ -28,7 +28,6 @@ export const useVerifyToken = () => {
       })
       .catch((error) => {
         if(error.message.includes('expired')){
-          console.log(`useRefreshToken`)
           refresh()
         }else{
           setValidToken(false)

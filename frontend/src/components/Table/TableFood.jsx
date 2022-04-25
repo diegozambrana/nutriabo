@@ -8,15 +8,15 @@ import {
   TableHead,
   TableRow
 } from '@mui/material'
-import { FOOD_COLUMNS, NEW_ROW } from '../../utils';
-import { formatNumber } from '../../utils';
 import { Box } from '@mui/system';
 import AddIcon from '@mui/icons-material/Add';
 import { RowFood } from './RowFood';
 import { TotalTimeFoodTable } from './TotalTimeFoodTable';
+import { FOOD_COLUMNS, NEW_ROW, formatNumber } from '../../utils';
 
 
-export const TableFood = ({aliments, onUpdateFood, onRemoveFood, onAddNewRow: AddNewRow}) => {
+
+export const TableFood = ({aliments, total, onUpdateFood, onRemoveFood, onAddNewRow: AddNewRow}) => {
   const columns = React.useMemo(() => FOOD_COLUMNS, []);
   const columnsTotal = React.useMemo(() => {
     let l = [...FOOD_COLUMNS];
@@ -39,21 +39,6 @@ export const TableFood = ({aliments, onUpdateFood, onRemoveFood, onAddNewRow: Ad
     });
     onUpdateFood(index, row)
   }
-
-  const totalData = React.useMemo(() => {
-    let total = {};
-    columnsTotal.forEach(column => total[column.accessor] = 0)
-
-    aliments.forEach(row => {
-      columnsTotal.forEach(column => {
-        total[column.accessor] = formatNumber(
-          parseFloat(total[column.accessor]) + parseFloat(row[column.accessor]),
-          'number'
-        );
-      })
-    })
-    return total
-  }, [aliments, columnsTotal])
 
   return (
     <Box>
@@ -89,16 +74,17 @@ export const TableFood = ({aliments, onUpdateFood, onRemoveFood, onAddNewRow: Ad
         </Table>
       </TableContainer>
 
-      <Box ml={2}>
+      <Box ml={1}>
         <Button
           onClick={() => AddNewRow(NEW_ROW)}
           variant="contained"
+          size="small"
           startIcon={<AddIcon />}
         >Nuevo Alimento</Button>
       </Box>
 
       <Box mt={3}>
-        <TotalTimeFoodTable totalData={totalData} columns={columnsTotal} />
+        <TotalTimeFoodTable totalData={total} columns={columnsTotal} />
       </Box>
     </Box>
   )

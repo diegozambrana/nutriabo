@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/system';
 import HelpIcon from '@mui/icons-material/Help';
-import {Button, IconButton, Tooltip} from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import { EditText, Card, TableFood } from '../index';
 import { useDispatch } from 'react-redux';
 import {
@@ -47,11 +47,12 @@ export const CardFood = ({foodTimeData, index}) => {
       <Box mt={2} sx={{ width: '100%', overflow: 'hidden' }}>
         <TableFood
           aliments={foodTimeData.aliments || []}
+          total={foodTimeData.total}
           onAddNewRow={(value) => {
             dispatch(addNewFood({index, value}))
           }}
           onUpdateFood={(indexFood, value) => dispatch(updateFood({index, indexFood, value}))}
-          onRemoveFood={(index) => dispatch(removeFood(index))}
+          onRemoveFood={(indexFood) => dispatch(removeFood({index, indexFood}))}
         />
       </Box>
     </Card>

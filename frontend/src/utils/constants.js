@@ -39,3 +39,21 @@ export const NEW_ROW = {
   niacina: 0,
   vintamina_C: 0,
 }
+
+export const TOTAL_INIT = {
+  energia: 0,
+  humedad: 0,
+  proteina: 0,
+  grasa: 0,
+  cho_total: 0,
+  fibra_cruda: 0,
+  ceniza: 0,
+  calcio: 0,
+  fosforo: 0,
+  hierro: 0,
+  vitamina_A: 0,
+  tiamina: 0,
+  riboflav: 0,
+  niacina: 0,
+  vintamina_C: 0,
+}

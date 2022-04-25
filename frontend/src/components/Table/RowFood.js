@@ -1,23 +1,22 @@
 import React from 'react';
 import {
-  TableCell,
   TableRow,
-  InputBase
+  InputBase,
+  IconButton
 } from '@mui/material'
-import { FOOD_COLUMNS, NEW_ROW } from '../../utils';
+import CancelIcon from '@mui/icons-material/Cancel';
+import { TableCell } from './TableCell';
 import { DATA_TABLE } from '../../data';
 import { DropDown } from '../index';
-import {IconButton, Tooltip} from '@mui/material';
-import CancelIcon from '@mui/icons-material/Cancel';
-import { Box } from '@mui/system';
 
-export const RowFood = ({columns, row, index, onUpdate, onRemove}) => {
+
+export const RowFood = ({columns, row, index: indexRow, onUpdate, onRemove}) => {
   const [option, setOption] = React.useState();
   const [amount, setAmount] = React.useState(0);
 
   React.useEffect(() => {
     if(option && amount){
-      onUpdate(option, amount, index)
+      onUpdate(option, amount, indexRow)
     }
   }, [option, amount])
 
@@ -30,7 +29,7 @@ export const RowFood = ({columns, row, index, onUpdate, onRemove}) => {
           if(column.accessor === 'actions'){
             return (
               <div>
-                <IconButton onClick={() => onRemove(index)}>
+                <IconButton onClick={() => onRemove(indexRow)}>
                   <CancelIcon />
                 </IconButton>
               </div>
