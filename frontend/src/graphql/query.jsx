@@ -10,6 +10,24 @@ query{
 }
 `
 
+export const GET_ALIMENTS = gql`
+query{
+  allAliments{
+    nombre
+    codigo
+  }
+}
+`
+
+export const SEARCH_ALIMENT = gql`
+query SearchAliment($search: String!){
+  searchAliment(search: $search){
+    nombre
+    codigo
+  }
+}
+`
+
 export const GET_ALIMENT_BY_CODE = gql`
 query GetAlimentByCode($code: String!){
   getAlimentByCode(codigo: $code){

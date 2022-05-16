@@ -7,6 +7,7 @@ import {
     TableRow
   } from '@mui/material'
 import { TableCell } from './TableCell';
+import { formatNumber } from '../../utils'
 
 export const TotalTimeFoodTable = ({totalData, columns}) => {
 
@@ -31,7 +32,7 @@ export const TotalTimeFoodTable = ({totalData, columns}) => {
             <TableRow>
               {columns.map((column, index) => (
                 <TableCell key={`${column.id}_${index}_`} align={column.align}>
-                  {totalData[column.accessor]}
+                  {formatNumber(totalData[column.accessor], 'number')}
                 </TableCell>
               ))}
             </TableRow>

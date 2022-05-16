@@ -10,6 +10,10 @@ class Query(graphene.ObjectType):
         AlimentType,
         codigo=graphene.String(required=True)
     )
+    search_aliment = graphene.List(
+        AlimentType,
+        search=graphene.String(required=True)
+    )
 
     def resolve_whoami(self, info):
         user = info.context.user
@@ -26,5 +30,11 @@ class Query(graphene.ObjectType):
     def resolve_get_aliment_by_code(self, info, codigo):
         try:
             return Alimento.objects.get(codigo=codigo)
+        except Alimento.DoesNotExist:
+            return None
+    
+    def resolve_search_aliment(self, info, search):
+        try:
+            return Alimento.objects.filter(nombre__icontains=search)[:20]
         except Alimento.DoesNotExist:
             return None

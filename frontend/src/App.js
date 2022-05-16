@@ -2,7 +2,7 @@ import { CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { Routes, Route } from "react-router-dom";
 import { theme } from './theme';
-import { Test2 } from './pages';
+import { ChemicalAnalysis } from './pages/ChemicalAnalysis';
 import { Login, Register } from './pages/auth'
 import { useUser } from './hooks/useUser';
 import { Layout } from './components/Layout'
@@ -19,7 +19,7 @@ function App() {
         <Route path="/dashboard" element={
           <RedirectPage privatePath>
             <Layout>
-              <Test2 />
+              <ChemicalAnalysis />
             </Layout>
           </RedirectPage>
         } />
@@ -34,7 +34,6 @@ function App() {
           </RedirectPage>
         } />
       </Routes>
-      
     </ThemeProvider>
     
   )

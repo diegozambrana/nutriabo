@@ -14,9 +14,13 @@ import { RowFood } from './RowFood';
 import { TotalTimeFoodTable } from './TotalTimeFoodTable';
 import { FOOD_COLUMNS, NEW_ROW, formatNumber } from '../../utils';
 
-
-
-export const TableFood = ({aliments, total, onUpdateFood, onRemoveFood, onAddNewRow: AddNewRow}) => {
+export const TableFood = ({
+  aliments,
+  total,
+  onUpdateFood,
+  onRemoveFood,
+  onAddNewRow: AddNewRow
+}) => {
   const columns = React.useMemo(() => FOOD_COLUMNS, []);
   const columnsTotal = React.useMemo(() => {
     let l = [...FOOD_COLUMNS];
@@ -27,14 +31,17 @@ export const TableFood = ({aliments, total, onUpdateFood, onRemoveFood, onAddNew
 
 
   React.useEffect(() => {
+    // start block with one row
     if(aliments.length === 0 ) AddNewRow(NEW_ROW)
   }, [aliments])
 
   const onUpdate = (option, amount, index) => {
+    // update every field based on 100g (amount * value / 100)
     const row = {}
     Object.keys(aliments[index]).forEach((key) => {
       if (key !== 'nombre' && key !== 'cantidad' && key !== 'actions'){
-        row[key] = formatNumber(amount * option[key], 'number');
+        const value = option[key] || 0;
+        row[key] = formatNumber((amount * value) / 100, 'number');
       }
     });
     onUpdateFood(index, row)
@@ -58,18 +65,16 @@ export const TableFood = ({aliments, total, onUpdateFood, onRemoveFood, onAddNew
             </TableRow>
           </TableHead>
           <TableBody>
-            {aliments.map((row, index) => {
-              return (
-                <RowFood
-                  key={`t_${index}`}
-                  columns={columns}
-                  row={row}
-                  onUpdate={onUpdate}
-                  index={index}
-                  onRemove={onRemoveFood}
-                />
-              );
-            })}
+            {aliments.map((row, index) => (
+              <RowFood
+                key={`t_${index}`}
+                columns={columns}
+                row={row}
+                onUpdate={onUpdate}
+                index={index}
+                onRemove={onRemoveFood}
+              />
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

@@ -1,5 +1,9 @@
 import React from 'react';
-import { Box, TextField, Autocomplete } from '@mui/material';
+import { 
+  Box,
+  TextField,
+  Autocomplete,
+} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 
 /**
@@ -12,14 +16,23 @@ import {makeStyles} from '@mui/styles';
  * @param {function} onRemove - callback that notify when the input was cleaned
  */
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
+    position: 'relative',
     '& > div > div': {    
       padding: '0 !important'
     },
     '& > div > div > fieldset': {
       border: 'none !important',
     }
+  },
+  list: {
+    position: 'absollute',
+    top: 0,
+    background: 'white',
+    maxHeight: '300px',
+    overflow: 'scroll',
+    boxShadow: '1px 1px 3px rgb(0 0 0 / 20%)',
   }
 }));
 
@@ -35,7 +48,7 @@ export const DropDown = ({options, label, placeholder, onSelect, onRemove}) => {
       getOptionLabel={(option) => option[label]}
       renderOption={(props, option) => (
         <Box component="li" {...props}>
-          <strong>{option.codigo}</strong> - {option[label]}
+          {option[label]}
         </Box>
       )}
       renderInput={(params) => (

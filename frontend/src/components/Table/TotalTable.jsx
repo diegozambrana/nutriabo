@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { TableCell } from './TableCell';
 import { Card } from '../index';
-import { FOOD_COLUMNS } from '../../utils';
+import { FOOD_COLUMNS, formatNumber } from '../../utils';
 
 export const TotalTable = ({totalData}) => {
   const columns = FOOD_COLUMNS.slice(2, FOOD_COLUMNS.length - 1)
@@ -36,7 +36,7 @@ export const TotalTable = ({totalData}) => {
           <TableRow>
             {columns.map((column, index) => (
               <TableCell key={`${column.id}_${index}_`} align={column.align}>
-                {totalData[column.accessor]}
+                {formatNumber(totalData[column.accessor], 'number')}
               </TableCell>
             ))}
           </TableRow>

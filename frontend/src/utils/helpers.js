@@ -5,6 +5,7 @@ export const Reducer = () => {
 }
 
 export const formatNumber = (value, type) => {
+    if(!value) return 0
     if(type === 'number'){
         return value.toFixed(2) 
     }

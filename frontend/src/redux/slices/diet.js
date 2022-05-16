@@ -1,6 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { TOTAL_INIT } from '../../utils';
 
+const SUGGESTED_NAMES = [
+  'Desayuno',
+  'Merienda Media Mañana',
+  'Almuerzo',
+  'Merienda Media Tarde',
+  'Cena',
+]
+
 export const dietSlice = createSlice({
   name: 'diet',
   initialState: {
@@ -18,7 +26,7 @@ export const dietSlice = createSlice({
   reducers: {
     addFoodTime: (state, action) => {
       state.foodTimes.push({
-        name: 'action.payload.name',
+        name: SUGGESTED_NAMES[state.foodTimes.length] || 'Sin nombre',
         aliments: [],
         total: {}
       })

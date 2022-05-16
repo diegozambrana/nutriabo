@@ -1,21 +1,26 @@
 import { Box } from '@mui/system';
-import React from 'react';
-import { CardFood, EditBlockText, TotalTable } from '../components';
-import { EditText } from '../components';
+import React, { useEffect } from 'react';
+import { CardFood, EditBlockText, TotalTable, EditText } from '../../components';
 import { useSelector,useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
-import { addFoodTime, updateTitle, updateDescription } from '../redux/slices/diet';
+import { addFoodTime, updateTitle, updateDescription } from '../../redux/slices/diet';
 import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import { getAliments } from '../../redux/slices/aliments';
 
-export const Test2 = () => {
+export const ChemicalAnalysis = () => {
   const {
     foodTimes,
     titleDiet,
     descriptionDiet,
     total
   } = useSelector(s => s.diet);
+
+  useEffect(() => {
+    dispatch(getAliments())
+  }, [])
+
   const dispatch = useDispatch();
   const handleSave = () => {}
   const handleExport = () => {}
