@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { TOTAL_INIT } from '../../utils';
+import { calculateMolecularCalc } from '../../utils/handlers';
 
 const SUGGESTED_NAMES = [
   'Desayuno',
@@ -14,6 +15,44 @@ export const dietSlice = createSlice({
   initialState: {
     titleDiet: 'sin Titulo',
     descriptionDiet: 'Lorem impsum',
+    
+    // Cálculo molecular calórica
+    molecularCalc:  calculateMolecularCalc({
+      genre: 'M',
+      weight: 78,
+      size: 170,
+      age: 32,
+      RCT: 0,
+      RCB: 0,
+    }),
+
+    activityFactor: null,
+    injuryFactor: {value: null, code: null},
+
+    // distribución molecular calorica
+    molecularDistribution: {
+      protein: {
+        percent: 0,
+        KCAL: 0,
+        GR: 0
+      },
+      lipids: {
+        percent: 0,
+        KCAL: 0,
+        GR: 0
+      },
+      carbohydrates: {
+        percent: 0,
+        KCAL: 0,
+        GR: 0
+      },
+      total: {
+        percent: 0,
+        KCAL: 0,
+        GR: 0
+      },
+    },
+
     foodTimes: [
       {
         name: 'Desayuno',
@@ -21,7 +60,13 @@ export const dietSlice = createSlice({
         total: {...TOTAL_INIT}
       }
     ],
-    total: {...TOTAL_INIT}
+    total: {...TOTAL_INIT},
+    adequacy: {
+      energia: 0,
+      grasa: 0,
+      proteina: 0,
+      choTotal: 0,
+    }
   },
   reducers: {
     addFoodTime: (state, action) => {
@@ -76,7 +121,22 @@ export const dietSlice = createSlice({
           return res
         }, {...TOTAL_INIT}
       )
-    }
+    },
+    updateMolecularCalc: (state, action) => {
+      state.molecularCalc = action.payload
+    },
+    updateMolecularDistribution: (state, action) => {
+      state.molecularDistribution = action.payload
+    },
+    updateAdequacy: (state, action) => {
+      state.adequacy = action.payload
+    },
+    updateActivityFactor: (state, action) => {
+      state.activityFactor = action.payload;
+    },
+    updateInjuryFactor: (state, action) => {
+      state.injuryFactor = action.payload;
+    },
   },
 })
 
@@ -87,7 +147,12 @@ export const {
   updateFood,
   removeFood,
   updateTitle,
-  updateDescription
+  updateDescription,
+  updateMolecularCalc,
+  updateMolecularDistribution,
+  updateAdequacy,
+  updateActivityFactor,
+  updateInjuryFactor
 } = dietSlice.actions
 
 export default dietSlice.reducer

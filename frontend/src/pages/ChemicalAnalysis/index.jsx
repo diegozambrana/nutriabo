@@ -1,25 +1,34 @@
 import { Box } from '@mui/system';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CardFood, EditBlockText, TotalTable, EditText } from '../../components';
 import { useSelector,useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
-import { addFoodTime, updateTitle, updateDescription } from '../../redux/slices/diet';
+import { addFoodTime, updateTitle, updateDescription, updateAdequacy } from '../../redux/slices/diet';
 import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { getAliments } from '../../redux/slices/aliments';
+import { UpdateMolecular } from './components/UpdateMolecular';
+import { calculateAdequacy } from '../../utils/handlers'
 
 export const ChemicalAnalysis = () => {
+  const [openedMD, setOpenedMD] = useState(false);
   const {
     foodTimes,
     titleDiet,
     descriptionDiet,
-    total
+    total,
+    adequacy,
+    molecularDistribution,
   } = useSelector(s => s.diet);
 
   useEffect(() => {
     dispatch(getAliments())
   }, [])
+
+  useEffect(() => {
+    dispatch(updateAdequacy(calculateAdequacy(total, molecularDistribution)))
+  }, [total, molecularDistribution])
 
   const dispatch = useDispatch();
   const handleSave = () => {}
@@ -27,6 +36,13 @@ export const ChemicalAnalysis = () => {
 
   const controlBar = <Box display={'flex'} justifyContent={'flex-end'}>
     <Box>
+      <Button
+        onClick={() => setOpenedMD(true)}
+        variant="contained"
+        size="small"
+        >Valor Molecular</Button>
+    </Box>
+    <Box ml={1}>
       <Button
         onClick={handleSave}
         variant="contained"
@@ -81,8 +97,13 @@ export const ChemicalAnalysis = () => {
         startIcon={<AddIcon />}
       >Nuevo Tiempo de comida</Button>
 
-      <TotalTable totalData={total} />
+      <TotalTable totalData={total} adequacyData={adequacy}/>
       
+      <UpdateMolecular
+        open={openedMD}
+        handleClose={() => setOpenedMD(false)}
+        onAccept={() => setOpenedMD(false)}
+      />
       {controlBar}
     </Box>
   )
