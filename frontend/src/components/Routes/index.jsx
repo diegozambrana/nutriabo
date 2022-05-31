@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
  */
 
 export const RedirectPage = ({children, privatePath}) => {
+  
   const {user, inProgress} = useSelector(s => s.user);
   const shouldShow = useMemo(() => {
     if(privatePath) return !!user
@@ -17,13 +18,16 @@ export const RedirectPage = ({children, privatePath}) => {
   }, [user, privatePath])
   const redirectPath = privatePath ? '/login' : '/dashboard'
 
+  console.log(`--->RedirectPage`, inProgress, shouldShow, redirectPath);
   if(inProgress){
     return <Box sx={{ display: 'flex' }}>
+      {console.log(`inProgress`)}
       <CircularProgress />
     </Box>
   }
   if(shouldShow){
-    return <>{children}</>
+    return <>{children}{console.log(`CHILD`)}</>
   }
+  console.log(`NAVIGATE`)
   return <Navigate to={redirectPath}/>
 }

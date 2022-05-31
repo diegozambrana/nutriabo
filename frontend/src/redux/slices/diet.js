@@ -69,7 +69,7 @@ export const dietSlice = createSlice({
     }
   },
   reducers: {
-    addFoodTime: (state, action) => {
+    addFoodTime: (state) => {
       state.foodTimes.push({
         name: SUGGESTED_NAMES[state.foodTimes.length] || 'Sin nombre',
         aliments: [],
