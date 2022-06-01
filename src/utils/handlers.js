@@ -1,4 +1,4 @@
-const DECIMAL_VALUES = [
+export const DECIMAL_VALUES = [
   'calcio',
   'ceniza',
   'choTotal',
@@ -70,7 +70,7 @@ export const calculateAdequacy = (total, molecularDistribution) => ({
     (total.energia * molecularDistribution.total.percent) /
     molecularDistribution.total.KCAL,
   grasa:
-    (total.proteina * molecularDistribution.total.percent) /
+    (total.grasa * molecularDistribution.total.percent) /
     molecularDistribution.lipids.GR,
   proteina:
     (total.proteina * molecularDistribution.total.percent) /
