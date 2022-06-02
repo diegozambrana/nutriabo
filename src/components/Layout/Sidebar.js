@@ -1,12 +1,19 @@
 import React from 'react';
 import { Box, Divider, Drawer, Typography, useMediaQuery } from '@mui/material';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ScienceIcon from '@mui/icons-material/Science';
 import { NavItem } from './nav-item';
 
 const items = [
   {
-    href: '/',
-    // icon: (<ChartBarIcon fontSize="small" />),
-    title: 'Dashboard',
+    href: '/dashboard',
+    icon: <DashboardIcon fontSize="small" />,
+    title: 'Inicio',
+  },
+  {
+    href: '/chemical-analysis',
+    icon: <ScienceIcon fontSize="small" />,
+    title: 'Análisis Químico',
   },
 ];
 
@@ -38,7 +45,12 @@ export function Sidebar(props) {
       />
       <Box sx={{ flexGrow: 1 }}>
         {items.map((item) => (
-          <NavItem key={item.title} href={item.href} title={item.title} />
+          <NavItem
+            key={item.title}
+            icon={item.icon}
+            href={item.href}
+            title={item.title}
+          />
         ))}
       </Box>
     </Box>
