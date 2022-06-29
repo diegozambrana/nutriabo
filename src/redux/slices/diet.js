@@ -14,6 +14,7 @@ const SUGGESTED_NAMES = [
 export const dietSlice = createSlice({
   name: 'diet',
   initialState: {
+    id: null,
     titleDiet: 'sin Titulo',
     descriptionDiet: 'Lorem impsum',
 
@@ -37,7 +38,7 @@ export const dietSlice = createSlice({
         KCAL: 0,
         GR: 0,
       },
-      lipids: {
+      lipid: {
         percent: 0,
         KCAL: 0,
         GR: 0,
@@ -142,6 +143,78 @@ export const dietSlice = createSlice({
     updateInjuryFactor: (state, action) => {
       state.injuryFactor = action.payload;
     },
+    updateId: (state, action) => {
+      state.id = action.payload;
+    },
+    loadChemicalAnalysis: (state, action) => {
+      state.id = action.payload.id;
+      state.titleDiet = action.payload.title;
+      state.descriptionDiet = action.payload.description;
+
+      state.molecularCalc = {
+        genre: action.payload.genre,
+        weight: action.payload.weight,
+        size: action.payload.size,
+        age: action.payload.age,
+        RCT: action.payload.RCT,
+        RCB: action.payload.RCB,
+      };
+
+      state.activityFactor = action.payload.activityFactor;
+      state.injuryFactor = {
+        value: action.payload.injuryFactor,
+        code: action.payload.injuryFactorCode,
+      };
+
+      state.molecularDistribution = {
+        protein: {
+          percent: action.payload.mdProteinPercent,
+          KCAL: action.payload.mdProteinKCAL,
+          GR: action.payload.mdProteinGR,
+        },
+        lipid: {
+          percent: action.payload.mdLipidsPercent,
+          KCAL: action.payload.mdLipidsKCAL,
+          GR: action.payload.mdLipidsGR,
+        },
+        carbohydrates: {
+          percent: action.payload.mdCarbohydratesPercent,
+          KCAL: action.payload.mdCarbohydratesKCAL,
+          GR: action.payload.mdCarbohydratesGR,
+        },
+        total: {
+          percent: action.payload.mdTotalPercent,
+          KCAL: action.payload.mdTotalKCAL,
+          GR: action.payload.mdTotalGR,
+        },
+      };
+
+      state.foodTimes = JSON.parse(action.payload.foodTimesJSON);
+      state.total = {
+        energia: action.payload.totalEnergia,
+        humedad: action.payload.totalHumedad,
+        proteina: action.payload.totalProteina,
+        grasa: action.payload.totalGrasa,
+        choTotal: action.payload.totalChoTotal,
+        fibraCruda: action.payload.totalFibraCruda,
+        ceniza: action.payload.totalCeniza,
+        calcio: action.payload.totalCalcio,
+        fosforo: action.payload.totalFosforo,
+        hierro: action.payload.totalHierro,
+        vitaminaA: action.payload.totalVitaminaA,
+        tiamina: action.payload.totalTiamina,
+        riboflav: action.payload.totalRiboflav,
+        niacina: action.payload.totalNiacina,
+        vintaminaC: action.payload.totalVintaminaC,
+      };
+
+      state.adequacy = {
+        energia: action.payload.adequacyEnergia,
+        grasa: action.payload.adequacyGrasa,
+        proteina: action.payload.adequacyProteina,
+        choTotal: action.payload.adequacyChoTotal,
+      };
+    },
   },
 });
 
@@ -158,6 +231,8 @@ export const {
   updateAdequacy,
   updateActivityFactor,
   updateInjuryFactor,
+  updateId,
+  loadChemicalAnalysis,
 } = dietSlice.actions;
 
 export default dietSlice.reducer;

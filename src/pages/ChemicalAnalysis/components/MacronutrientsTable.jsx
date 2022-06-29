@@ -24,7 +24,7 @@ export function MacronutrientsTable({
   const columns = [...MACRONUTRIENTS_COLUMNS];
   const rows = [
     { id: 'protein', label: 'PROTEINA' },
-    { id: 'lipids', label: 'LIPIDO' },
+    { id: 'lipid', label: 'LIPIDO' },
     { id: 'carbohydrates', label: 'CARBOHIDRATOS' },
     { id: 'total', label: 'TOTAL' },
   ];

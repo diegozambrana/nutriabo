@@ -16,6 +16,7 @@ let pendingRequests = [];
 const TOKEN_REQUIRED_MSG = [
   'Authentication Failure: Your must be signed in',
   'Error decoding signature',
+  'Signature has expired',
 ];
 
 const resolvePendingRequests = () => {
@@ -78,7 +79,7 @@ const errorLink = onError(
         return forward$.flatMap(() => forward(operation));
       }
     }
-    if (networkError) console.log(`[Network error]: ${networkError}`);
+    if (networkError) console.error(`[Network error]: ${networkError}`);
     return null;
   },
 );

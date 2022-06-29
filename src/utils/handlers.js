@@ -48,20 +48,20 @@ export const calculateMolecularDistribution = (data, RCT) => {
   const newData = copy(data);
   newData.total.percent =
     newData.protein.percent +
-    newData.lipids.percent +
+    newData.lipid.percent +
     newData.carbohydrates.percent;
   newData.protein.KCAL =
     (newData.protein.percent * RCT) / newData.total.percent;
-  newData.lipids.KCAL = (newData.lipids.percent * RCT) / newData.total.percent;
+  newData.lipid.KCAL = (newData.lipid.percent * RCT) / newData.total.percent;
   newData.carbohydrates.KCAL =
     (newData.carbohydrates.percent * RCT) / newData.total.percent;
   newData.protein.GR = newData.protein.KCAL / 4;
-  newData.lipids.GR = newData.lipids.KCAL / 9;
+  newData.lipid.GR = newData.lipid.KCAL / 9;
   newData.carbohydrates.GR = newData.carbohydrates.KCAL / 4;
   newData.total.KCAL =
-    newData.protein.KCAL + newData.lipids.KCAL + newData.carbohydrates.KCAL;
+    newData.protein.KCAL + newData.lipid.KCAL + newData.carbohydrates.KCAL;
   newData.total.GR =
-    newData.protein.GR + newData.lipids.GR + newData.carbohydrates.GR;
+    newData.protein.GR + newData.lipid.GR + newData.carbohydrates.GR;
   return newData;
 };
 
@@ -71,7 +71,7 @@ export const calculateAdequacy = (total, molecularDistribution) => ({
     molecularDistribution.total.KCAL,
   grasa:
     (total.grasa * molecularDistribution.total.percent) /
-    molecularDistribution.lipids.GR,
+    molecularDistribution.lipid.GR,
   proteina:
     (total.proteina * molecularDistribution.total.percent) /
     molecularDistribution.protein.GR,

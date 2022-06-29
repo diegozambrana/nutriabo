@@ -17,6 +17,8 @@ export function Dialog({
   onCancel,
   content,
   contentText,
+  acceptText = 'Aceptar',
+  cancelText = 'Cancelar',
 }) {
   return (
     <CustomDialog open={open} onClose={handleClose}>
@@ -30,10 +32,10 @@ export function Dialog({
         )}
       </DialogContent>
       <DialogActions>
-        {onCancel && <Button onClick={onCancel}>Cancelar</Button>}
+        {onCancel && <Button onClick={onCancel}>{cancelText}</Button>}
         {onAccept && (
           <Button onClick={onAccept} autoFocus variant="contained">
-            Aceptar
+            {acceptText}
           </Button>
         )}
       </DialogActions>

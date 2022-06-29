@@ -1,28 +1,60 @@
-import { IconButton, InputBase, Typography, Button, Box } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
+import {
+  IconButton,
+  InputBase,
+  Typography,
+  Button,
+  Box,
+  CircularProgress,
+} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import { useMutation, useQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../../components';
-import { ChemicalAnalysisItem } from './components/ChemicalAnalysisItem';
 import { Dialog } from '../../components/Dialog';
+import { GET_CHEMICAL_ANALYSIS_LIST } from '../../graphql/chemicalAnalysis/query';
+import { DELETE_CHEMICAL_ANALYSIS } from '../../graphql/chemicalAnalysis/mutation';
+import { ChemicalAnalysisItem } from './components/ChemicalAnalysisItem';
 
 export function ChemicalAnalysisList() {
-  const [showRemoveDialog, setShowRemoveDialog] = useState(false);
   const [current, setCurrent] = useState({ title: '' });
+  const [showRemoveDialog, setShowRemoveDialog] = useState(false);
+  const { data, loading, refetch } = useQuery(GET_CHEMICAL_ANALYSIS_LIST);
+  const [DeleteChemicalAnalysis, { loading: loadingDelete }] = useMutation(
+    DELETE_CHEMICAL_ANALYSIS,
+  );
   const navigate = useNavigate();
 
   const handleOnEdit = (item) => {
     navigate(`/chemical-analysis/${item.id}/edit`);
   };
+
   const handleOnReview = (item) => {
     navigate(`/chemical-analysis/${item.id}`);
   };
+
   const handleOnRemove = (item) => {
     setCurrent(item);
     setShowRemoveDialog(true);
   };
 
+  const onDelete = () => {
+    if (loadingDelete) return;
+    DeleteChemicalAnalysis({ variables: { id: current.id } }).then(() => {
+      setShowRemoveDialog(false);
+      refetch();
+    });
+  };
+
   const onCreate = () => navigate(`/chemical-analysis/create`);
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Card>
@@ -46,31 +78,29 @@ export function ChemicalAnalysisList() {
       </Box>
 
       <Box mt={2} mb={2}>
-        <ChemicalAnalysisItem
-          item={{ title: 'Test', id: 'test' }}
-          onEdit={handleOnEdit}
-          onReview={handleOnReview}
-          onRemove={handleOnRemove}
-        />
-        <ChemicalAnalysisItem
-          item={{ title: 'Test 1', id: 'test-2' }}
-          onEdit={handleOnEdit}
-          onReview={handleOnReview}
-          onRemove={handleOnRemove}
-        />
-        <ChemicalAnalysisItem
-          item={{ title: 'Test 2', id: 'test-3' }}
-          onEdit={handleOnEdit}
-          onReview={handleOnReview}
-          onRemove={handleOnRemove}
-        />
+        {data?.getChemicalAnalysisList?.length === 0 && (
+          <Box color="gray" textAlign="center" pb={3} pt={4}>
+            No tienes ningun Analisis Químico.
+            <br />
+            Puedes crear uno haciendo clic en el botón <strong>Nuevo</strong>
+          </Box>
+        )}
+        {data?.getChemicalAnalysisList?.map((element) => (
+          <ChemicalAnalysisItem
+            key={element.id}
+            item={element}
+            onEdit={handleOnEdit}
+            onReview={handleOnReview}
+            onRemove={handleOnRemove}
+          />
+        ))}
       </Box>
 
       <Dialog
         open={showRemoveDialog}
         handleClose={() => setShowRemoveDialog(false)}
         title="Eliminar Analisis Químico?"
-        onAccept={() => {}}
+        onAccept={() => onDelete()}
         onCancel={() => setShowRemoveDialog(false)}
         contentText={`Esta seguro que desea eliminar permanentemente el analisis quimico ${current.title}?`}
       />

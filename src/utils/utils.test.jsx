@@ -96,15 +96,15 @@ test('Molecular Calc', () => {
 test('Molecular Distribution', () => {
   const data = {
     protein: { percent: 15 },
-    lipids: { percent: 30 },
+    lipid: { percent: 30 },
     carbohydrates: { percent: 55 },
     total: { percent: 0 },
   };
   const md1 = calculateMolecularDistribution(data, 1800);
   expect(md1.protein.KCAL).toBe(270);
   expect(md1.protein.GR).toBe(67.5);
-  expect(md1.lipids.KCAL).toBe(540);
-  expect(md1.lipids.GR).toBe(60);
+  expect(md1.lipid.KCAL).toBe(540);
+  expect(md1.lipid.GR).toBe(60);
   expect(md1.carbohydrates.KCAL).toBe(990);
   expect(md1.carbohydrates.GR).toBe(247.5);
   expect(md1.total.percent).toBe(100);
@@ -115,7 +115,7 @@ test('Molecular Distribution', () => {
 test('Adequacy', () => {
   const data = {
     protein: { percent: 15 },
-    lipids: { percent: 30 },
+    lipid: { percent: 30 },
     carbohydrates: { percent: 55 },
     total: { percent: 0 },
   };
