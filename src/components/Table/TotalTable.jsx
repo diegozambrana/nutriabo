@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { TableCell } from './TableCell';
 import { Card } from '../index';
-import { FOOD_COLUMNS, formatNumber } from '../../utils';
+import { FOOD_COLUMNS, formatNumber, getAdequacyColor } from '../../utils';
 
 export function TotalTable({ totalData, adequacyData }) {
   const columns = FOOD_COLUMNS.slice(2, FOOD_COLUMNS.length - 1);
@@ -55,9 +55,16 @@ export function TotalTable({ totalData, adequacyData }) {
                   key={`${column.id}_${column.accessor}`}
                   align={column.align}
                 >
-                  {columnsAdequacy.includes(column)
-                    ? formatNumber(adequacyData[column.accessor], 'number')
-                    : ''}
+                  {columnsAdequacy.includes(column) ? (
+                    <Box
+                      component="span"
+                      color={getAdequacyColor(adequacyData[column.accessor])}
+                    >
+                      {formatNumber(adequacyData[column.accessor], 'number')}
+                    </Box>
+                  ) : (
+                    ''
+                  )}
                 </TableCell>
               ))}
             </TableRow>

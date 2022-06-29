@@ -16,3 +16,9 @@ export const cleanToken = () => {
   Cookies.remove('nt-access');
   Cookies.remove('nt-refresh');
 };
+
+export const getAdequacyColor = (value) => {
+  if (value < 95 || value > 105) return 'red';
+  if (value <= 96 || value >= 104) return 'orangered';
+  return 'green';
+};
